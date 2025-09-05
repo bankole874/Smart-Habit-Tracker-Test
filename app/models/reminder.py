@@ -1,8 +1,9 @@
-# app/models/reminders.py
-
 from sqlmodel import SQLModel, Field, Relationship
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 from datetime import time
+
+if TYPE_CHECKING:
+    from app.models.habit import Habit
 
 class Reminder(SQLModel, table=True):
     __tablename__ = "reminders"
@@ -12,5 +13,5 @@ class Reminder(SQLModel, table=True):
     reminder_time: time
     enabled: bool = Field(default=True)
     
-    # Relationships
-    habit: Habit = Relationship(back_populates="reminders")
+    # Relationships - use string reference
+    habit: "Habit" = Relationship(back_populates="reminders")

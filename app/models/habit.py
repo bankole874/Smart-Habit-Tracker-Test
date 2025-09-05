@@ -1,11 +1,13 @@
-# app/models/habit.py
-
 from sqlmodel import SQLModel, Field, Relationship
-from typing import Optional, List
+from typing import Optional, List, TYPE_CHECKING
 from datetime import datetime, time
 from enum import Enum
 
-from app.models.user import User
+if TYPE_CHECKING:
+    from app.models.user import User
+    from app.models.habit_progress import HabitProgress
+    from app.models.streak import Streak
+    from app.models.reminder import Reminder
 
 class FrequencyType(str, Enum):
     DAILY = "daily"
@@ -24,8 +26,8 @@ class Habit(SQLModel, table=True):
     created_at: datetime = Field(default_factory=datetime.utcnow)
     archived: bool = Field(default=False)
     
-    # Relationships
-    user: User = Relationship(back_populates="habits")
+    # Relationships - use string references
+    user: "User" = Relationship(back_populates="habits")
     progress_entries: List["HabitProgress"] = Relationship(back_populates="habit")
     streaks: List["Streak"] = Relationship(back_populates="habit")
     reminders: List["Reminder"] = Relationship(back_populates="habit")

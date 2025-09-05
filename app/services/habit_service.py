@@ -1,4 +1,3 @@
-# app/services/habit_service.py
 from typing import List
 from sqlmodel import Session, select
 from fastapi import HTTPException, status

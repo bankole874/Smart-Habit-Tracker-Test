@@ -1,4 +1,3 @@
-# app/services/progress_service.py
 from typing import List
 from datetime import date
 from sqlmodel import Session, select

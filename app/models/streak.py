@@ -1,8 +1,9 @@
-# app/models/streak.py
-
 from sqlmodel import SQLModel, Field, Relationship
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 from datetime import date
+
+if TYPE_CHECKING:
+    from app.models.habit import Habit
 
 class Streak(SQLModel, table=True):
     __tablename__ = "streaks"
@@ -14,5 +15,5 @@ class Streak(SQLModel, table=True):
     longest: bool = Field(default=False)
     current: bool = Field(default=False)
     
-    # Relationships
-    habit: Habit = Relationship(back_populates="streaks")
+    # Relationships - use string reference
+    habit: "Habit" = Relationship(back_populates="streaks")

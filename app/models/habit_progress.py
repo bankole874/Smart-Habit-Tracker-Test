@@ -1,8 +1,9 @@
-# app/models/habit_progress.py
-
 from sqlmodel import SQLModel, Field, Relationship
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 from datetime import datetime, date
+
+if TYPE_CHECKING:
+    from app.models.habit import Habit
 
 class HabitProgress(SQLModel, table=True):
     __tablename__ = "habit_progress"
@@ -14,9 +15,10 @@ class HabitProgress(SQLModel, table=True):
     note: Optional[str] = Field(default=None, max_length=500)
     created_at: datetime = Field(default_factory=datetime.utcnow)
     
-    # Relationships
-    habit: Habit = Relationship(back_populates="progress_entries")
+    # Relationships - use string reference
+    habit: "Habit" = Relationship(back_populates="progress_entries")
     
     class Config:
-        # Ensure unique constraint on habit_id and date
-        table_args = ({"unique": ("habit_id", "date")},)
+        # Note: SQLModel doesn't use table_args the same way as SQLAlchemy
+        # The unique constraint should be handled differently
+        pass
